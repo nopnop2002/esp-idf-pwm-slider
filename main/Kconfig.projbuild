@@ -65,7 +65,7 @@ menu "Application Configuration"
 
 	endmenu
 
-	menu "PWM Setting"
+	menu "GPIO Setting"
 
 		config BLINK_GPIO
 			int "Blink GPIO number"
