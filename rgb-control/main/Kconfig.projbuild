@@ -1,0 +1,105 @@
+menu "Application Configuration"
+
+	menu "WiFi Setting"
+
+		config ESP_WIFI_SSID
+			string "WiFi SSID"
+			default "myssid"
+			help
+				SSID (network name) to connect to.
+
+		config ESP_WIFI_PASSWORD
+			string "WiFi Password"
+			default "mypassword"
+			help
+				WiFi password (WPA or WPA2) to connect to.
+
+		config ESP_MAXIMUM_RETRY
+			int "Maximum retry"
+			default 5
+			help
+				Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+
+		config MDNS_HOSTNAME
+			string "mDNS Hostname"
+			default "esp32-server"
+			help
+				The mDNS host name used by the ESP32.
+
+		config STATIC_IP
+			bool "Enable Static IP Address"
+			default false
+			help
+				Enable Static IP Address.
+
+		config STATIC_IP_ADDRESS
+			depends on STATIC_IP
+			string "Static IP Address"
+			default "192.168.10.100"
+			help
+				Static IP Address for Station.
+
+		config STATIC_GW_ADDRESS
+			depends on STATIC_IP
+			string "Static GW Address"
+			default "192.168.10.1"
+			help
+				Static GW Address for Station.
+
+		config STATIC_NM_ADDRESS
+			depends on STATIC_IP
+			string "Static Netmask"
+			default "255.255.255.0"
+			help
+				Static Netmask for Station.
+
+	endmenu
+
+	menu "HTTP Server Setting"
+
+		config WEB_PORT
+			int "HTTP Server Port"
+			default 8000
+			help
+				HTTP server port to use.
+
+	endmenu
+
+	menu "GPIO Setting"
+
+		config GPIO_RED
+			int "GPIO number of RED"
+			range 0 48
+			default 8 if IDF_TARGET_ESP32C3
+			default 18 if IDF_TARGET_ESP32S2
+			default 47 if IDF_TARGET_ESP32S3
+			default 12
+			help
+				GPIO number (IOxx) to blink on and off or the RMT signal for the addressable LED.
+				Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to blink.
+
+		config GPIO_GREEN
+			int "GPIO number of GREEN"
+			range 0 48
+			default 9 if IDF_TARGET_ESP32C3
+			default 19 if IDF_TARGET_ESP32S2
+			default 48 if IDF_TARGET_ESP32S3
+			default 13
+			help
+				GPIO number (IOxx) to blink on and off or the RMT signal for the addressable LED.
+				Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to blink.
+
+		config GPIO_BLUE
+			int "GPIO number of BLUE"
+			range 0 48
+			default 10 if IDF_TARGET_ESP32C3
+			default 20 if IDF_TARGET_ESP32S2
+			default 49 if IDF_TARGET_ESP32S3
+			default 14
+			help
+				GPIO number (IOxx) to blink on and off or the RMT signal for the addressable LED.
+				Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to blink.
+
+	endmenu
+
+endmenu
