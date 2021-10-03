@@ -14,7 +14,7 @@ You can control these device from your smartphone.
 ![servo-control](https://user-images.githubusercontent.com/6020549/135770904-915448e9-3ad1-40dd-be85-d91a06e1a0c6.jpg)
 
 - RGB Control   
-![rgb-control](https://user-images.githubusercontent.com/6020549/135774069-c58854be-9728-48e9-97b0-4de018f08ee1.jpg)
+![rgb-control](https://user-images.githubusercontent.com/6020549/135774278-5a4021da-3f9e-4300-a872-4d82cfc2a53d.jpg)
 
 
 # WEB Page
