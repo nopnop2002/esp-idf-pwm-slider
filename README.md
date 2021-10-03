@@ -55,7 +55,7 @@ Default mDNS name is esp32-server.local.
 The brightness of the LED changes when the Slider is operated.   
 
 # WEB Page
-You can change your WEB Page.   
+You can change the web page.   
 The WEB page is stored in the html folder.   
 
 # How to browse image data using built-in http server   
