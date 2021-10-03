@@ -1,6 +1,6 @@
 # esp-idf-pwm-slider
 PWM Slider Bar Control using ESP-IDF.   
-ESP-IDF contains a lot of example code, but there is no sample to create FORM on the WEB and input data from FORM.   
+ESP-IDF contains a lot of example code, but there is no example to create FORM on the WEB and input data from FORM.   
 No library other than ESP-IDF is required to read the data from the WEB page.   
 
 I watched [this](https://www.youtube.com/watch?v=s-NFdMXA0H4&t=167s) video.   
