@@ -24,7 +24,7 @@ idf.py flash monitor
 Set the following items using menuconfig.
 
 ![config-main](https://user-images.githubusercontent.com/6020549/135744943-ca704fba-2786-4238-88bd-5fb5b7aae8f1.jpg)
-![config-app](https://user-images.githubusercontent.com/6020549/135744945-34686d90-e0c6-4520-8e66-5a4fb05f0cbe.jpg)
+![config-ap](https://user-images.githubusercontent.com/6020549/135746374-6b88c724-c210-4bfd-9c23-efe7494f97e5.jpg)
 
 ## Wifi Setting
 
@@ -45,7 +45,7 @@ You can use static IP.
 ![config-http](https://user-images.githubusercontent.com/6020549/135744994-eb863ae8-32f8-4082-a73e-49c1516ce16f.jpg)
 
 ## GPIO Setting
-![config-pwm](https://user-images.githubusercontent.com/6020549/135745004-cfc7631c-49ad-4751-bc39-181dadf412db.jpg)
+![config-gpio](https://user-images.githubusercontent.com/6020549/135746385-462b7133-5376-43f5-b207-c8ad77881c7a.jpg)
 
 # How to use
 Connect the LED according to the GPIO Setting.   
