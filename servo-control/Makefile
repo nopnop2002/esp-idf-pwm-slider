@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := pwm-slider
+PROJECT_NAME := servo-control
 
 include $(IDF_PATH)/make/project.mk
 

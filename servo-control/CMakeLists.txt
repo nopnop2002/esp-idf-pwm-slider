@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(pwm-slider)
+project(servo-control)
 
 # Create a SPIFFS image from the contents of the 'font' directory
 # that fits the partition named 'storage'. FLASH_IN_PROJECT indicates that
