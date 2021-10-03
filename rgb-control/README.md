@@ -42,7 +42,8 @@ You can use static IP.
 ![config-gpio](https://user-images.githubusercontent.com/6020549/135774095-9719625e-2c7e-4f73-b4ba-3d61cdb37e1e.jpg)
 
 # How to use
-Connect the __Full color LED__ according to the GPIO Setting.   
+Connect the __Full-color LED__ according to the GPIO Setting.   
+Full-color LEDs have a cathode common and an anode common.   
 Open your brouser, and put address in address bar.   
 You can use the mDNS hostname instead of the IP address.   
 Default mDNS name is esp32-server.local.   
