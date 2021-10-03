@@ -44,11 +44,11 @@ You can use static IP.
 ## HTTP Server Setting
 ![config-http](https://user-images.githubusercontent.com/6020549/135744994-eb863ae8-32f8-4082-a73e-49c1516ce16f.jpg)
 
-## PWM Setting
+## GPIO Setting
 ![config-pwm](https://user-images.githubusercontent.com/6020549/135745004-cfc7631c-49ad-4751-bc39-181dadf412db.jpg)
 
 # How to use
-Connect the LED according to the PWM Setting.   
+Connect the LED according to the GPIO Setting.   
 Open your brouser, and put address in address bar.   
 You can use the mDNS hostname instead of the IP address.   
 Default mDNS name is esp32-server.local.   
