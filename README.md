@@ -16,6 +16,12 @@ You can control these device from your smartphone.
 - RGB Control   
 ![rgb-control](https://user-images.githubusercontent.com/6020549/135774278-5a4021da-3f9e-4300-a872-4d82cfc2a53d.jpg)
 
+- Digital potentiometer   
+Components of the DS3502 is [here](https://github.com/UncleRus/esp-idf-lib/tree/master/components/ds3502).   
+
+- Digital Anlog Converter   
+Components of the PCF8591 is [here](https://github.com/UncleRus/esp-idf-lib/tree/master/components/pcf8591).   
+Components of the MCP4725 is [here](https://github.com/UncleRus/esp-idf-lib/tree/master/components/mcp4725).   
 
 # WEB Page
 You can change the web page.   
