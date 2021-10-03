@@ -5,6 +5,8 @@ No library other than ESP-IDF is required to read the data from the WEB page.
 
 I watched [this](https://www.youtube.com/watch?v=s-NFdMXA0H4&t=167s) video.   
 
+You can control these device from your smartphone.   
+
 - LED Control   
 ![led-control](https://user-images.githubusercontent.com/6020549/135770897-e17f9b45-86ee-4c94-aa90-eb4b1ce1305d.jpg)
 
