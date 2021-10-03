@@ -1,6 +1,6 @@
 # LED Control using Slider Bar
 
-LED PWM control example is [here](https://github.com/espressif/esp-idf/tree/master/examples/peripherals/ledc/ledc_basic).   
+LEDC Basic Example is [here](https://github.com/espressif/esp-idf/tree/master/examples/peripherals/ledc/ledc_basic).   
 
 ![led-control](https://user-images.githubusercontent.com/6020549/135770897-e17f9b45-86ee-4c94-aa90-eb4b1ce1305d.jpg)
 
