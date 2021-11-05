@@ -1,45 +1,45 @@
 <!DOCTYPE HTML><html>
 <head>
-  <!  define meta data >
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <! define the style CSS of your page >
-  <style>
-    html {font-family: Arial; display: inline-block; text-align: center;}
-    h1 {font-size: 2.9rem;}
-    h2 {font-size: 2.1rem;}
-    p {font-size: 1.9rem;}
-    body {max-width: 500px; margin:0px auto; padding-bottom: 30px;}
-    .slider { -webkit-appearance: none; margin: 14px; width: 400px; height: 15px; border-radius: 5px; background: #39a6de; outline: none; -webkit-transition: .2s; transition: opacity .2s;}
-    .slider::-webkit-slider-thumb {-webkit-appearance: none; appearance: none; width: 25px; height: 25px; border-radius: 12px; background: #f74d4d; cursor: pointer;}
-    .slider::-moz-range-thumb { width: 25px; height: 25px; border-radius: 12px; background: #F74D4D; cursor: pointer; } 
-  </style>
+	<! define meta data >
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<! define the style CSS of your page >
+	<style>
+		html {font-family: Arial; display: inline-block; text-align: center;}
+		h1 {font-size: 2.9rem;}
+		h2 {font-size: 2.1rem;}
+		p {font-size: 1.9rem;}
+		body {max-width: 500px; margin:0px auto; padding-bottom: 30px;}
+		.slider { -webkit-appearance: none; margin: 14px; width: 400px; height: 15px; border-radius: 5px; background: #39a6de; outline: none; -webkit-transition: .2s; transition: opacity .2s;}
+		.slider::-webkit-slider-thumb {-webkit-appearance: none; appearance: none; width: 25px; height: 25px; border-radius: 12px; background: #f74d4d; cursor: pointer;}
+		.slider::-moz-range-thumb { width: 25px; height: 25px; border-radius: 12px; background: #F74D4D; cursor: pointer; } 
+	</style>
 </head>
 <body>
-  <! Edit the pages your heading 1 >
-  <h1>PWM Slider Control</h1>
-  
-  <h2>RGB Brightness</h2>
-  
-  <! displays the range of the slider 0 - 100 in steps of 1 >
-  R:<input type="range" onchange="updateSliderPWM(this)" id="pwmSlider1" min="0" max="100" value="50" step="1" class="slider">
-  <span id="textSliderValue1">50</span><br>
-  G:<input type="range" onchange="updateSliderPWM(this)" id="pwmSlider2" min="0" max="100" value="50" step="1" class="slider">
-  <span id="textSliderValue2">50</span><br>
-  B:<input type="range" onchange="updateSliderPWM(this)" id="pwmSlider3" min="0" max="100" value="50" step="1" class="slider">
-  <span id="textSliderValue3">50</span><br>
+	<! Edit the pages your heading 1 >
+	<h1>PWM Slider Control</h1>
+	
+	<h2>RGB Brightness</h2>
+	
+	<! displays the range of the slider 0 - 100 in steps of 1 >
+	R:<input type="range" onchange="updateSliderPWM(this)" id="pwmSlider1" min="0" max="100" value="50" step="1" class="slider">
+	<span id="textSliderValue1">50</span><br>
+	G:<input type="range" onchange="updateSliderPWM(this)" id="pwmSlider2" min="0" max="100" value="50" step="1" class="slider">
+	<span id="textSliderValue2">50</span><br>
+	B:<input type="range" onchange="updateSliderPWM(this)" id="pwmSlider3" min="0" max="100" value="50" step="1" class="slider">
+	<span id="textSliderValue3">50</span><br>
 
-<script>
-function updateSliderPWM(element) {
-  var pwmSliderValue1 = document.getElementById("pwmSlider1").value;
-  document.getElementById("textSliderValue1").innerHTML = pwmSliderValue1;
-  var pwmSliderValue2 = document.getElementById("pwmSlider2").value;
-  document.getElementById("textSliderValue2").innerHTML = pwmSliderValue2;
-  var pwmSliderValue3 = document.getElementById("pwmSlider3").value;
-  document.getElementById("textSliderValue3").innerHTML = pwmSliderValue3;
-  var httpRequest = new XMLHttpRequest();
-  httpRequest.open("POST", "/post?red="+pwmSliderValue1+"&green="+pwmSliderValue2+"&blue="+pwmSliderValue3, true);
-  httpRequest.send();
-}
-</script>
+	<script>
+		function updateSliderPWM(element) {
+			var pwmSliderValue1 = document.getElementById("pwmSlider1").value;
+			document.getElementById("textSliderValue1").innerHTML = pwmSliderValue1;
+			var pwmSliderValue2 = document.getElementById("pwmSlider2").value;
+			document.getElementById("textSliderValue2").innerHTML = pwmSliderValue2;
+			var pwmSliderValue3 = document.getElementById("pwmSlider3").value;
+			document.getElementById("textSliderValue3").innerHTML = pwmSliderValue3;
+			var httpRequest = new XMLHttpRequest();
+			httpRequest.open("POST", "/post?red="+pwmSliderValue1+"&green="+pwmSliderValue2+"&blue="+pwmSliderValue3, true);
+			httpRequest.send();
+		}
+	</script>
 </body>
 </html>
