@@ -24,15 +24,15 @@
   <p><span id="textSliderValue">50</span> &#37</p>
   <! displays the range of the slider 0 - 100 in steps of 1 >
   <p><input type="range" onchange="updateSliderPWM(this)" id="pwmSlider" min="0" max="100" value="50" step="1" class="slider"></p>
-<script>
-function updateSliderPWM(element) {
-  var pwmSliderValue = document.getElementById("pwmSlider").value;
-  document.getElementById("textSliderValue").innerHTML = pwmSliderValue;
-  console.log(pwmSliderValue);
-  var httpRequest = new XMLHttpRequest();
-  httpRequest.open("POST", "/post?value="+pwmSliderValue, true);
-  httpRequest.send();
-}
-</script>
+	<script>
+		function updateSliderPWM(element) {
+		  var pwmSliderValue = document.getElementById("pwmSlider").value;
+		  document.getElementById("textSliderValue").innerHTML = pwmSliderValue;
+		  console.log(pwmSliderValue);
+		  var httpRequest = new XMLHttpRequest();
+		  httpRequest.open("POST", "/post?value="+pwmSliderValue, true);
+		  httpRequest.send();
+		}
+	</script>
 </body>
 </html>
