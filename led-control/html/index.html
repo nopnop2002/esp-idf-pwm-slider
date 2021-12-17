@@ -1,8 +1,8 @@
 <!DOCTYPE HTML><html>
 <head>
-	<! define meta data >
+	<!-- define meta data -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<! define the style CSS of your page >
+	<!-- define the style CSS of your page -->
 	<style>
 		html {font-family: Arial; display: inline-block; text-align: center;}
 		h1 {font-size: 2.9rem;}
@@ -15,14 +15,12 @@
 	</style>
 </head>
 <body>
-	<! Edit the pages your heading 1 >
 	<h1>PWM Slider Control</h1>
 	
 	<h2>LED Brightness</h2>
 	
-	<! Displays the value of the slider >
+	<!-- Displays the range of the slider from 0 to 100 in steps of 1 -->
 	<p><span id="textSliderValue">50</span> &#37</p>
-	<! displays the range of the slider 0 - 100 in steps of 1 >
 	<p><input type="range" onchange="updateSliderPWM(this)" id="pwmSlider" min="0" max="100" value="50" step="1" class="slider"></p>
 	<script>
 		function updateSliderPWM(element) {
