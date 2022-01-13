@@ -1,7 +1,8 @@
 # esp-idf-pwm-slider
-PWM Slider Bar Control using ESP-IDF.   
-ESP-IDF contains a lot of example code, but there is no example to create FORM on the WEB and input data from FORM.   
-No library other than ESP-IDF is required to read the data from the WEB page.   
+Slider Bar Control using ESP-IDF.   
+ESP-IDF contains a lot of example code, but there is no example to create FORM on the WEB and input data from RANGE object.   
+This project reads value from the RANGE object on the WEB and controls LEDs and so on.   
+No library other than ESP-IDF is required to read the value from the WEB page.   
 
 I watched [this](https://www.youtube.com/watch?v=s-NFdMXA0H4&t=167s) video.   
 
@@ -18,6 +19,7 @@ You can control these device from your smartphone.
 
 - Digital potentiometer   
 Components of the DS3502 is [here](https://github.com/UncleRus/esp-idf-lib/tree/master/components/ds3502).   
+Components of the Three-Wire Digitally Controlled Potentiometer is [here](https://github.com/nopnop2002/esp-idf-x9c103).   
 
 - Digital Anlog Converter   
 Components of the PCF8591 is [here](https://github.com/UncleRus/esp-idf-lib/tree/master/components/pcf8591).   
