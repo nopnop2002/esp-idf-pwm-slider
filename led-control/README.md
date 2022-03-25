@@ -4,6 +4,10 @@ LEDC Basic Example is [here](https://github.com/espressif/esp-idf/tree/master/ex
 
 ![led-control](https://user-images.githubusercontent.com/6020549/135770897-e17f9b45-86ee-4c94-aa90-eb4b1ce1305d.jpg)
 
+# Software requiment
+- esp-idf ver4.1 or later.   
+'tcpip_adapter_init' has been deprecated.
+
 # Installation
 ```
 git clone https://github.com/nopnop2002/esp-idf-pwm-slider
