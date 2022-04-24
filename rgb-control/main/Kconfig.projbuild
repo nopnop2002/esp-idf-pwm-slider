@@ -67,35 +67,42 @@ menu "Application Configuration"
 
 	menu "GPIO Setting"
 
+		config GPIO_RANGE_MAX
+			int
+			default 33 if IDF_TARGET_ESP32
+			default 46 if IDF_TARGET_ESP32S2
+			default 48 if IDF_TARGET_ESP32S3
+			default 19 if IDF_TARGET_ESP32C3
+
 		config GPIO_RED
 			int "GPIO number of RED"
-			range 0 48
-			default 8 if IDF_TARGET_ESP32C3
+			range 0 GPIO_RANGE_MAX
+			default 12 if IDF_TARGET_ESP32
 			default 18 if IDF_TARGET_ESP32S2
-			default 47 if IDF_TARGET_ESP32S3
-			default 12
+			default 18 if IDF_TARGET_ESP32S3
+			default  8 if IDF_TARGET_ESP32C3
 			help
 				GPIO number (IOxx) to blink on and off or the RMT signal for the addressable LED.
 				Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to blink.
 
 		config GPIO_GREEN
 			int "GPIO number of GREEN"
-			range 0 48
-			default 9 if IDF_TARGET_ESP32C3
+			range 0 GPIO_RANGE_MAX
+			default 13 if IDF_TARGET_ESP32
 			default 19 if IDF_TARGET_ESP32S2
-			default 48 if IDF_TARGET_ESP32S3
-			default 13
+			default 19 if IDF_TARGET_ESP32S3
+			default  9 if IDF_TARGET_ESP32C3
 			help
 				GPIO number (IOxx) to blink on and off or the RMT signal for the addressable LED.
 				Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to blink.
 
 		config GPIO_BLUE
 			int "GPIO number of BLUE"
-			range 0 48
-			default 10 if IDF_TARGET_ESP32C3
+			range 0 GPIO_RANGE_MAX
+			default 14 if IDF_TARGET_ESP32
 			default 20 if IDF_TARGET_ESP32S2
 			default 49 if IDF_TARGET_ESP32S3
-			default 14
+			default 10 if IDF_TARGET_ESP32C3
 			help
 				GPIO number (IOxx) to blink on and off or the RMT signal for the addressable LED.
 				Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to blink.

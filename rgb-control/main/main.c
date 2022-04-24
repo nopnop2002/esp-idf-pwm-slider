@@ -72,19 +72,11 @@ void wifi_init_sta()
 	ESP_LOGI(TAG,"ESP-IDF Ver%d.%d", ESP_IDF_VERSION_MAJOR, ESP_IDF_VERSION_MINOR);
 	ESP_LOGI(TAG,"ESP_IDF_VERSION %d", ESP_IDF_VERSION);
 
-//#if ESP_IDF_VERSION_MAJOR >= 4 && ESP_IDF_VERSION_MINOR >= 1
-#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(4, 1, 0)
 	ESP_LOGI(TAG,"ESP-IDF esp_netif");
 	ESP_ERROR_CHECK(esp_netif_init());
 	ESP_ERROR_CHECK(esp_event_loop_create_default());
 	esp_netif_t *netif = esp_netif_create_default_wifi_sta();
 	assert(netif);
-#else
-	ESP_LOGE(TAG,"esp-idf version 4.1 or higher required");
-	while(1) {
-		vTaskDelay(1);
-	}
-#endif // ESP_IDF_VERSION
 
 #if CONFIG_STATIC_IP
 
@@ -253,11 +245,11 @@ void app_main()
 	configASSERT( xQueueHttp );
 
 	/* Get the local IP address */
-	tcpip_adapter_ip_info_t ip_info;
-	ESP_ERROR_CHECK(tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info));
+	esp_netif_ip_info_t ip_info;
+	ESP_ERROR_CHECK(esp_netif_get_ip_info(esp_netif_get_handle_from_ifkey("WIFI_STA_DEF"), &ip_info));
 
 	char cparam0[64];
-	sprintf(cparam0, "%s", ip4addr_ntoa(&ip_info.ip));
+	sprintf(cparam0, IPSTR, IP2STR(&ip_info.ip));
 	xTaskCreate(http_server_task, "HTTP", 1024*6, (void *)cparam0, 2, NULL);
 
 	// Wait for the task to start, because cparam0 is discarded.

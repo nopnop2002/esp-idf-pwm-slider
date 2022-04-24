@@ -13,11 +13,14 @@ MCPWM RC Servo Control Example is [here](https://github.com/espressif/esp-idf/tr
 ```
 git clone https://github.com/nopnop2002/esp-idf-pwm-slider
 cd esp-idf-pwm-slider/servo-control
-idf.py set-target esp32
+idf.py set-target {esp32/esp32s3}
 idf.py menuconfig
 idf.py flash monitor
 ```
 
+__Note__   
+ESP32S2 does not support MCPWM.   
+ESP32C3 does not support MCPWM.   
 
 # Configuration
 Set the following items using menuconfig.
