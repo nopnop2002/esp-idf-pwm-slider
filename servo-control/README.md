@@ -59,7 +59,7 @@ When you operate the slider, the servo motor will rotate.
 
 # Wireing  
 
-|SERVO||ESP32|
+|SERVO||ESP32/ESP32S3|
 |:-:|:-:|:-:|
 |PWM|--|GPIO18(*1)|
 |GND|--|GND|
