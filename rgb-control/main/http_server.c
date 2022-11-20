@@ -8,6 +8,7 @@
 */
 
 #include <stdio.h>
+#include <inttypes.h>
 #include <string.h>
 #include <math.h>
 #include <sys/stat.h>
@@ -346,21 +347,21 @@ void http_server_task(void *pvParameters)
 	double maxduty = pow(2, 13) - 1;
 	float percent_red = 0.5;
 	uint32_t duty_red = maxduty * percent_red;
-	ESP_LOGI(TAG, "duty_red=%d", duty_red);
+	ESP_LOGI(TAG, "duty_red=%"PRIu32, duty_red);
 	ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, LEDC_CHANNEL_0, duty_red));
 	// Update duty to apply the new value
 	ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, LEDC_CHANNEL_0));
 
 	float percent_green = 0.5;
 	uint32_t duty_green = maxduty * percent_green;
-	ESP_LOGI(TAG, "duty_green=%d", duty_green);
+	ESP_LOGI(TAG, "duty_green=%"PRIu32, duty_green);
 	ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, LEDC_CHANNEL_1, duty_green));
 	// Update duty to apply the new value
 	ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, LEDC_CHANNEL_1));
 
 	float percent_blue = 0.5;
 	uint32_t duty_blue = maxduty * percent_blue;
-	ESP_LOGI(TAG, "duty_blue=%d", duty_blue);
+	ESP_LOGI(TAG, "duty_blue=%"PRIu32, duty_blue);
 	ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, LEDC_CHANNEL_2, duty_blue));
 	// Update duty to apply the new value
 	ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, LEDC_CHANNEL_2));
@@ -380,7 +381,7 @@ void http_server_task(void *pvParameters)
 			// Set duty value for red
 			percent_red = urlBuf.long_value_red / 100.0;
 			duty_red = maxduty * percent_red;
-			ESP_LOGI(TAG, "percent_red=%f duty_red=%d", percent_red, duty_red);
+			ESP_LOGI(TAG, "percent_red=%f duty_red=%"PRIu32, percent_red, duty_red);
 			ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, LEDC_CHANNEL_0, duty_red));
 			// Update duty to apply the new value
 			ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, LEDC_CHANNEL_0));
@@ -388,7 +389,7 @@ void http_server_task(void *pvParameters)
 			// Set duty value for green
 			percent_green = urlBuf.long_value_green / 100.0;
 			duty_green = maxduty * percent_green;
-			ESP_LOGI(TAG, "percent_green=%f duty_green=%d", percent_green, duty_green);
+			ESP_LOGI(TAG, "percent_green=%f duty_green=%"PRIu32, percent_green, duty_green);
 			ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, LEDC_CHANNEL_1, duty_green));
 			// Update duty to apply the new value
 			ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, LEDC_CHANNEL_1));
@@ -396,7 +397,7 @@ void http_server_task(void *pvParameters)
 			// Set duty value for blue
 			percent_blue = urlBuf.long_value_blue / 100.0;
 			duty_blue = maxduty * percent_blue;
-			ESP_LOGI(TAG, "percent_blue=%f duty_blue=%d", percent_blue, duty_blue);
+			ESP_LOGI(TAG, "percent_blue=%f duty_blue=%"PRIu32, percent_blue, duty_blue);
 			ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, LEDC_CHANNEL_2, duty_blue));
 			// Update duty to apply the new value
 			ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, LEDC_CHANNEL_2));

@@ -25,6 +25,10 @@ Components of the Three-Wire Digitally Controlled Potentiometer is [here](https:
 Components of the PCF8591 is [here](https://github.com/UncleRus/esp-idf-lib/tree/master/components/pcf8591).   
 Components of the MCP4725 is [here](https://github.com/UncleRus/esp-idf-lib/tree/master/components/mcp4725).   
 
+# Software requirement
+esp-idf v4.4/v5.0.   
+
+
 # WEB Page
 You can change the web page.   
 The WEB page is stored in the html folder.   

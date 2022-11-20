@@ -8,6 +8,7 @@
 */
 
 #include <stdio.h>
+#include <inttypes.h>
 #include <string.h>
 #include <math.h>
 #include <sys/stat.h>
@@ -317,7 +318,7 @@ void http_server_task(void *pvParameters)
 	double maxduty = pow(2, 13) - 1;
 	float percent = 0.5;
 	uint32_t duty = maxduty * percent;
-	ESP_LOGI(TAG, "duty=%d", duty);
+	ESP_LOGI(TAG, "duty=%"PRIu32, duty);
 	//ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, LEDC_CHANNEL, LEDC_DUTY));
 	ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, LEDC_CHANNEL, duty));
 	// Update duty to apply the new value
@@ -336,7 +337,7 @@ void http_server_task(void *pvParameters)
 			// Set duty value
 			percent = urlBuf.long_value / 100.0;
 			duty = maxduty * percent;
-			ESP_LOGI(TAG, "percent=%f duty=%d", percent, duty);
+			ESP_LOGI(TAG, "percent=%f duty=%"PRIu32, percent, duty);
 			ESP_ERROR_CHECK(ledc_set_duty(LEDC_MODE, LEDC_CHANNEL, duty));
 			// Update duty to apply the new value
 			ESP_ERROR_CHECK(ledc_update_duty(LEDC_MODE, LEDC_CHANNEL));
