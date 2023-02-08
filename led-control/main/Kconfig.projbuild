@@ -72,6 +72,7 @@ menu "Application Configuration"
 			default 33 if IDF_TARGET_ESP32
 			default 46 if IDF_TARGET_ESP32S2
 			default 48 if IDF_TARGET_ESP32S3
+			default 18 if IDF_TARGET_ESP32C2
 			default 19 if IDF_TARGET_ESP32C3
 
 		config BLINK_GPIO

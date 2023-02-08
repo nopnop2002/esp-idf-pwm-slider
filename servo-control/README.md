@@ -4,10 +4,6 @@ MCPWM RC Servo Control Example is [here](https://github.com/espressif/esp-idf/tr
 
 ![servo-control](https://user-images.githubusercontent.com/6020549/135770904-915448e9-3ad1-40dd-be85-d91a06e1a0c6.jpg)
 
-# Software requiment
-- esp-idf ver4.1 or later.   
-'tcpip_adapter_init' has been deprecated.
-
 
 # Installation
 ```
@@ -20,7 +16,7 @@ idf.py flash monitor
 
 __Note__   
 ESP32S2 does not support MCPWM.   
-ESP32C3 does not support MCPWM.   
+ESP32Cx does not support MCPWM.   
 
 # Configuration
 Set the following items using menuconfig.
@@ -32,11 +28,21 @@ Set the following items using menuconfig.
 
 ![config-wifi-1](https://user-images.githubusercontent.com/6020549/135744955-36149a83-d887-4271-8cae-b90cf188dda6.jpg)
 
-You can use the mDNS hostname instead of the IP address.   
+You can connect using the mDNS hostname instead of the IP address.   
 - esp-idf V4.3 or earlier   
  You will need to manually change the mDNS strict mode according to [this](https://github.com/espressif/esp-idf/issues/6190) instruction.   
-- esp-idf V4.4 or later  
- If you set CONFIG_MDNS_STRICT_MODE = y in sdkconfig.default, the firmware will be built with MDNS_STRICT_MODE = 1.
+- esp-idf V4.4  
+ If you set CONFIG_MDNS_STRICT_MODE = y in sdkconfig.defaults, the firmware will be built with MDNS_STRICT_MODE.   
+ __If MDNS_STRICT_MODE is not set, mDNS name resolution will not be possible after long-term operation.__   
+- esp-idf V4.4.1   
+ mDNS component has been updated.   
+ If you set CONFIG_MDNS_STRICT_MODE = y in sdkconfig.defaults, the firmware will be built with MDNS_STRICT_MODE.   
+ __Even if MDNS_STRICT_MODE is set, mDNS name resolution will not be possible after long-term operation.__   
+- esp-idf V5.0 or later   
+ mDNS component has been updated.   
+ Long-term operation is possible without setting MDNS_STRICT_MODE.   
+ The following lines in sdkconfig.defaults should be removed before menuconfig.   
+ ```CONFIG_MDNS_STRICT_MODE=y```
 
 ![config-wifi-2](https://user-images.githubusercontent.com/6020549/135744972-d83fdc41-c472-46be-8a55-dd04d88e47e6.jpg)
 
@@ -49,9 +55,13 @@ You can use static IP.
 ## SERVO Setting
 ![config-servo](https://user-images.githubusercontent.com/6020549/135771153-b26c7102-2561-435e-a8e9-86680edbae83.jpg)
 
+I used SG90 Micro Servo Motor.   
+- SERVO_MIN_PULSEWIDTH_US:625   
+- SERVO_MAX_PULSEWIDTH_US:2350   
+- SERVO_PWM_PERIOD:50   
+
 # How to use
 Connect the Servo motor according to the SERVO Setting.   
-I used SG90 Micro Servo Motor.   
 Open your brouser, and put address in address bar.   
 You can use the mDNS hostname instead of the IP address.   
 Default mDNS name is esp32-server.local.   
