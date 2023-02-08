@@ -8,6 +8,7 @@
 */
 
 #include <stdio.h>
+#include <inttypes.h>
 #include <string.h>
 #include <math.h>
 #include <sys/stat.h>
@@ -20,65 +21,17 @@
 #include "esp_err.h"
 #include "nvs.h"
 #include "esp_http_server.h"
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
+#include "driver/mcpwm_prelude.h"
+#else
 #include "driver/mcpwm.h"
+#endif
 
 #include "http_server.h"
 
 static const char *TAG = "HTTP";
 
 extern QueueHandle_t xQueueHttp;
-
-#if 0
-#define STORAGE_NAMESPACE "storage"
-
-esp_err_t save_key_value(char * key, char * value)
-{
-	nvs_handle_t my_handle;
-	esp_err_t err;
-
-	// Open
-	err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &my_handle);
-	if (err != ESP_OK) return err;
-
-	// Write
-	err = nvs_set_str(my_handle, key, value);
-	if (err != ESP_OK) return err;
-
-	// Commit written value.
-	// After setting any values, nvs_commit() must be called to ensure changes are written
-	// to flash storage. Implementations may write to storage at other times,
-	// but this is not guaranteed.
-	err = nvs_commit(my_handle);
-	if (err != ESP_OK) return err;
-
-	// Close
-	nvs_close(my_handle);
-	return ESP_OK;
-}
-
-esp_err_t load_key_value(char * key, char * value, size_t size)
-{
-	nvs_handle_t my_handle;
-	esp_err_t err;
-
-	// Open
-	err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &my_handle);
-	if (err != ESP_OK) return err;
-
-	// Read
-	size_t _size = size;
-	err = nvs_get_str(my_handle, key, value, &_size);
-	ESP_LOGI(TAG, "nvs_get_str err=%d", err);
-	//if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) return err;
-	if (err != ESP_OK) return err;
-	ESP_LOGI(TAG, "err=%d key=[%s] value=[%s] _size=%d", err, key, value, _size);
-
-	// Close
-	nvs_close(my_handle);
-	//return ESP_OK;
-	return err;
-}
-#endif
 
 int find_key_value(char * key, char * parameter, char * value) 
 {
@@ -271,12 +224,20 @@ esp_err_t start_server(const char *base_path, int port)
 // SERVO Stuff
 //#define SERVO_MIN_PULSEWIDTH_US (1000) // Minimum pulse width in microsecond
 //#define SERVO_MAX_PULSEWIDTH_US (2000) // Maximum pulse width in microsecond
-#define SERVO_MAX_DEGREE		(90)	 // Maximum angle in degree upto which servo can rotate
+#define SERVO_MIN_DEGREE		-90   // Minimum angle
+#define SERVO_MAX_DEGREE		90	  // Maximum angle
 //#define SERVO_PULSE_GPIO			(18)	 // GPIO connects to the PWM signal line
+#define SERVO_TIMEBASE_RESOLUTION_HZ 1000000  // 1MHz, 1us per tick
+//#define SERVO_TIMEBASE_PERIOD		 20000	  // 20000 ticks, 20ms
 
-static inline uint32_t example_convert_servo_angle_to_duty_us(int angle)
+static inline uint32_t convert_servo_angle_to_duty_us(int angle)
 {
 	return (angle + SERVO_MAX_DEGREE) * (CONFIG_SERVO_MAX_PULSEWIDTH_US - CONFIG_SERVO_MIN_PULSEWIDTH_US) / (2 * SERVO_MAX_DEGREE) + CONFIG_SERVO_MIN_PULSEWIDTH_US;
+}
+
+static inline uint32_t convert_servo_angle_to_compare(int angle)
+{
+	return (angle - SERVO_MIN_DEGREE) * (CONFIG_SERVO_MAX_PULSEWIDTH_US - CONFIG_SERVO_MIN_PULSEWIDTH_US) / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + CONFIG_SERVO_MIN_PULSEWIDTH_US;
 }
 
 void http_server_task(void *pvParameters)
@@ -287,15 +248,72 @@ void http_server_task(void *pvParameters)
 	sprintf(url, "http://%s:%d", task_parameter, CONFIG_WEB_PORT);
 
 	// Setup Servo
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
+	ESP_LOGI(TAG, "Create timer and operator");
+	// Servo PWM Period = 50Hz, i.e. for every servo motor time period should be 20ms
+	uint32_t period_ticks = SERVO_TIMEBASE_RESOLUTION_HZ/CONFIG_SERVO_PWM_PERIOD;
+	ESP_LOGI(TAG, "period_ticks=%"PRIu32, period_ticks);
+	mcpwm_timer_handle_t timer = NULL;
+	mcpwm_timer_config_t timer_config = {
+		.group_id = 0,
+		.clk_src = MCPWM_TIMER_CLK_SRC_DEFAULT,
+		.resolution_hz = SERVO_TIMEBASE_RESOLUTION_HZ,
+		//.period_ticks = SERVO_TIMEBASE_PERIOD,
+		.period_ticks = period_ticks,
+		.count_mode = MCPWM_TIMER_COUNT_MODE_UP,
+	};
+	ESP_ERROR_CHECK(mcpwm_new_timer(&timer_config, &timer));
+
+	mcpwm_oper_handle_t oper = NULL;
+	mcpwm_operator_config_t operator_config = {
+		.group_id = 0, // operator must be in the same group to the timer
+	};
+	ESP_ERROR_CHECK(mcpwm_new_operator(&operator_config, &oper));
+
+	ESP_LOGI(TAG, "Connect timer and operator");
+	ESP_ERROR_CHECK(mcpwm_operator_connect_timer(oper, timer));
+
+	ESP_LOGI(TAG, "Create comparator and generator from the operator");
+	mcpwm_cmpr_handle_t comparator = NULL;
+	mcpwm_comparator_config_t comparator_config = {
+		.flags.update_cmp_on_tez = true,
+	};
+	ESP_ERROR_CHECK(mcpwm_new_comparator(oper, &comparator_config, &comparator));
+
+	mcpwm_gen_handle_t generator = NULL;
+	mcpwm_generator_config_t generator_config = {
+		.gen_gpio_num = CONFIG_SERVO_PULSE_GPIO,
+	};
+	ESP_ERROR_CHECK(mcpwm_new_generator(oper, &generator_config, &generator));
+
+	// set the initial compare value, so that the servo will spin to the center position
+	ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, convert_servo_angle_to_compare(0)));
+
+	ESP_LOGI(TAG, "Set generator action on timer and compare event");
+	// go high on counter empty
+	ESP_ERROR_CHECK(mcpwm_generator_set_actions_on_timer_event(generator,
+					MCPWM_GEN_TIMER_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, MCPWM_TIMER_EVENT_EMPTY, MCPWM_GEN_ACTION_HIGH),
+					MCPWM_GEN_TIMER_EVENT_ACTION_END()));
+	// go low on compare threshold
+	ESP_ERROR_CHECK(mcpwm_generator_set_actions_on_compare_event(generator,
+					MCPWM_GEN_COMPARE_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, comparator, MCPWM_GEN_ACTION_LOW),
+					MCPWM_GEN_COMPARE_EVENT_ACTION_END()));
+
+	ESP_LOGI(TAG, "Enable and start timer");
+	ESP_ERROR_CHECK(mcpwm_timer_enable(timer));
+	ESP_ERROR_CHECK(mcpwm_timer_start_stop(timer, MCPWM_TIMER_START_NO_STOP));
+
+#else
 	mcpwm_gpio_init(MCPWM_UNIT_0, MCPWM0A, CONFIG_SERVO_PULSE_GPIO); // To drive a RC servo, one MCPWM generator is enough
 
 	mcpwm_config_t pwm_config = {
 		.frequency = CONFIG_SERVO_PWM_PERIOD, // frequency = 50Hz, i.e. for every servo motor time period should be 20ms
-		.cmpr_a = 0,	 // duty cycle of PWMxA = 0
+		.cmpr_a = 0, // duty cycle of PWMxA = 0
 		.counter_mode = MCPWM_UP_COUNTER,
 		.duty_mode = MCPWM_DUTY_MODE_0,
 	};
 	mcpwm_init(MCPWM_UNIT_0, MCPWM_TIMER_0, &pwm_config);
+#endif
 
 	// Start Server
 	ESP_LOGI(TAG, "Starting server on %s", url);
@@ -304,7 +322,11 @@ void http_server_task(void *pvParameters)
 	// Rotate to the center
 	int angle = 0;
 	ESP_LOGI(TAG, "Angle of rotation: %d", angle);
-	ESP_ERROR_CHECK(mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, example_convert_servo_angle_to_duty_us(angle)));
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
+	ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, convert_servo_angle_to_compare(angle)));
+#else
+	ESP_ERROR_CHECK(mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, convert_servo_angle_to_duty_us(angle)));
+#endif
 
 	URL_t urlBuf;
 	while(1) {
@@ -314,7 +336,11 @@ void http_server_task(void *pvParameters)
 			
 			angle = urlBuf.long_value;
 			ESP_LOGI(TAG, "Angle of rotation: %d", angle);
-			ESP_ERROR_CHECK(mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, example_convert_servo_angle_to_duty_us(angle)));
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
+			ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(comparator, convert_servo_angle_to_compare(angle)));
+#else
+			ESP_ERROR_CHECK(mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, convert_servo_angle_to_duty_us(angle)));
+#endif
 
 		}
 	}
