@@ -27,7 +27,7 @@
 
 #include "http_server.h"
 
-#define TAG	"MAIN"
+static const char *TAG = "MAIN";
 
 /* FreeRTOS event group to signal when we are connected*/
 static EventGroupHandle_t s_wifi_event_group;

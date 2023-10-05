@@ -71,12 +71,14 @@ menu "Application Configuration"
 			int
 			default 33 if IDF_TARGET_ESP32
 			default 48 if IDF_TARGET_ESP32S3
+			default 30 if IDF_TARGET_ESP32C6
 
 		config SERVO_PULSE_GPIO
 			int "GPIO connects to the PWM signal line"
 			range 0 GPIO_RANGE_MAX
 			default 18 if IDF_TARGET_ESP32
 			default 18 if IDF_TARGET_ESP32S3
+			default  0 if IDF_TARGET_ESP32C6
 			help
 				GPIO connects to the PWM signal line.
 				Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to signal.
