@@ -69,11 +69,11 @@ When you operate the slider, the servo motor will rotate.
 
 # Wireing  
 
-|SERVO||ESP32/ESP32S3|
-|:-:|:-:|:-:|
-|PWM|--|GPIO18(*1)|
-|GND|--|GND|
-|VCC|--|3.3V(*2)|
+|SERVO||ESP32/S3|ESP32C6||
+|:-:|:-:|:-:|:-:|:-:|
+|PWM|--|GPIO18|GPIO0|(*1)|
+|GND|--|GND|GND||
+|VCC|--|3.3V|3.3V|(*2)|
 
 (*1) You can change using menuconfig.   
 
