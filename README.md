@@ -26,8 +26,8 @@ Components of the PCF8591 is [here](https://github.com/UncleRus/esp-idf-lib/tree
 Components of the MCP4725 is [here](https://github.com/UncleRus/esp-idf-lib/tree/master/components/mcp4725).   
 
 # Software requirement
-ESP-IDF V4.4/V5.x.   
-ESP-IDF V5.0 is required when using ESP32-C2.   
+ESP-IDF V5.0 or later.   
+ESP-IDF V4.4 release branch reached EOL in July 2024.   
 ESP-IDF V5.1 is required when using ESP32-C6.   
 
 # WEB Page
