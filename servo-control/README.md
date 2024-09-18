@@ -29,7 +29,6 @@ Set the following items using menuconfig.
 ![config-wifi-1](https://user-images.githubusercontent.com/6020549/135744955-36149a83-d887-4271-8cae-b90cf188dda6.jpg)
 
 You can connect using the mDNS hostname instead of the IP address.   
-
 ![config-wifi-2](https://user-images.githubusercontent.com/6020549/135744972-d83fdc41-c472-46be-8a55-dd04d88e47e6.jpg)
 
 You can use static IP.   
